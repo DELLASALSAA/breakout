@@ -2,8 +2,7 @@ import pygame
 from pygame.locals import *
 import sys
 import os
-import rand
-
+## breakout ##
 ################### menjalankan pygame #######################
 pygame.init()
 ################### membuat judul ############################
