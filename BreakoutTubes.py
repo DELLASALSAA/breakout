@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 import sys
 import os
+import rand
 
 ################### menjalankan pygame #######################
 pygame.init()
