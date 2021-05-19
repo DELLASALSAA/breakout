@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 import sys
 import os
-## breakout ##
+## breakout #
 ################### menjalankan pygame #######################
 pygame.init()
 ################### membuat judul ############################
@@ -156,7 +156,7 @@ class Tangan:
     def tangan_awal(self,warna):
         # MENDEKLARASIKAN VARIABLE YANG DI BUTUHKAN DAYUNG
         self.tinggi = 20
-        self.lebar = int(LEBAR / 6)
+        self.lebar = int(LEBAR / 1)
         self.x = int((LEBAR / 2) - (self.lebar / 2))
         self.y = TINGGI - (self.tinggi * 2)
         self.kecepatan = 3
@@ -337,6 +337,44 @@ class Bonus:
         # VEKTOR BONUS AKAN SELALU KEBAWAH SELAMA LOOPING TERPENUHI
         self.rect.y += self.kecepatan_y
 
+class Berhenti:
+    def __init__(self, x, y, tulisan, ukuran):
+
+        # MENDEKLARASIKAN VARIABLE YAG DI BUTUHKAN
+        
+        
+        self.warna_tulisan = MERAH
+        self.x = x
+        self.y = y
+        self.tulisan = tulisan
+        self.huruf = pygame.font.SysFont('Ubuntu', ukuran)
+
+    #UNGSI UNTUK MENAMPILKAN TOMBOL
+    def menampilkan_tombol(self):
+
+        global klik
+        aksi = False
+
+        # MEMBUAT VARIABEL UNTUK MOUSE
+        pos = pygame.mouse.get_pos()
+
+        tombol_rect = pygame.Rect(self.x, self.y, 180, 70)
+
+        #MEMERIKSA APAKAH SUDAH DI KLIK ATAU BELOM
+        if tombol_rect.collidepoint(pos):
+            if pygame.mouse.get_pressed()[0] == 1:
+                klik = True
+            elif pygame.mouse.get_pressed()[0] == 0 and klik == True:
+                klik = False
+                aksi = True
+        
+
+        # MEMBUAT TULISAN PADA TOMBOL
+        gambar_tulisan = self.huruf.render(self.tulisan, True, self.warna_tulisan)
+        tampilan.blit(gambar_tulisan,(self.x,self.y ))
+        return aksi
+
+berhenti = Berhenti(520,580,'BERHENTI',14)
 
 #################### OBJEK MENU AWAL ###########################
 maingame = Tombol(75, 200, 'PLAY', HIJAU)
@@ -352,6 +390,7 @@ hijau = Tombol(75, 350, 'HIJAU', HIJAU)
 ################# OBJEK UNTUK TOBOLBERAKHIR GAME ################
 game_berakhir = Tombol(75, 310, 'KELUAR', MERAH)
 game_ngulang = Tombol(325, 310, 'MENGULANG', BIRU)
+game_kembali = Tombol(325, 310, 'KEMBALI', KUNING)
 
 tangan_warna = NETRAL
 bola_warna = NETRAL
@@ -484,6 +523,30 @@ while run:
         # SAAT BOLA MATI
         if selesai != 0:
             bola_hidup = False
+    
+    if berhenti.menampilkan_tombol():
+        run1 = True
+        while run1:
+            tampilan.fill(PUTIH)
+            tampilan.blit(MUKA_KELOMPOK, (0, 0))
+
+            #MENAMPILKAN SKOR AKHIR
+            tampil_skor = huruf.render(f"SKOR ANDA ADALAH : ({bola.skor})",
+                                       True, PUTIH)
+            tampilan.blit(tampil_skor, (150, 250))
+
+            # SAAT TOMBOL DI TEKAN MAKA AKAN KELUAR
+            if game_berakhir.menampilkan_tombol():
+                exit()
+            #saat tombol di tekan maka game akan merestart dimana game akan mengulang dari awal
+            if game_kembali.menampilkan_tombol():
+                run1 = False
+            
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    exit()
+
+            pygame.display.update()
 
     # SAAT BOLA MATI
     if not bola_hidup:
