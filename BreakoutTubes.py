@@ -156,7 +156,7 @@ class Tangan:
     def tangan_awal(self,warna):
         # MENDEKLARASIKAN VARIABLE YANG DI BUTUHKAN DAYUNG
         self.tinggi = 20
-        self.lebar = int(LEBAR / 1)
+        self.lebar = int(LEBAR / 6)
         self.x = int((LEBAR / 2) - (self.lebar / 2))
         self.y = TINGGI - (self.tinggi * 2)
         self.kecepatan = 3
